@@ -1,5 +1,4 @@
-package com.becodemy;
-import com.oblador.vectoricons.VectorIconsPackage;
+package com.becodemy.threads;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

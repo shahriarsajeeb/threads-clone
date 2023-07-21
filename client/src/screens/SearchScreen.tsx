@@ -77,6 +77,7 @@ const SearchScreen = ({navigation}: Props) => {
             </View>
             <FlatList
               data={data}
+              showsVerticalScrollIndicator={false}
               renderItem={({item}) => {
                 const handleFollowUnfollow = async (e: any) => {
                   try {

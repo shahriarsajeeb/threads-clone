@@ -104,13 +104,14 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
                 borderRadius={100}
               />
             </TouchableOpacity>
-            <View className="pl-3">
+            <View className="pl-3 w-[80%]">
               <TouchableOpacity onPress={() => profileHandler(userInfo)}>
                 <Text className="text-black font-[500] text-[18px]">
                   {userInfo?.name}
                 </Text>
               </TouchableOpacity>
-              <Text className="text-black font-[500] text-[18px]">
+              <Text className="text-black font-[500] text-[18px]"
+              >
                 {item.title}
               </Text>
             </View>

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Becodemy.app"
-               BlueprintName = "Becodemy"
-               ReferencedContainer = "container:Becodemy.xcodeproj">
+               BuildableName = "Threadsclone.app"
+               BlueprintName = "Threadsclone"
+               ReferencedContainer = "container:Threadsclone.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "BecodemyTests.xctest"
-               BlueprintName = "BecodemyTests"
-               ReferencedContainer = "container:Becodemy.xcodeproj">
+               BuildableName = "ThreadscloneTests.xctest"
+               BlueprintName = "ThreadscloneTests"
+               ReferencedContainer = "container:Threadsclone.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Becodemy.app"
-            BlueprintName = "Becodemy"
-            ReferencedContainer = "container:Becodemy.xcodeproj">
+            BuildableName = "Threadsclone.app"
+            BlueprintName = "Threadsclone"
+            ReferencedContainer = "container:Threadsclone.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Becodemy.app"
-            BlueprintName = "Becodemy"
-            ReferencedContainer = "container:Becodemy.xcodeproj">
+            BuildableName = "Threadsclone.app"
+            BlueprintName = "Threadsclone"
+            ReferencedContainer = "container:Threadsclone.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
