@@ -26,9 +26,11 @@ const userSchema = new mongoose.Schema(
     avatar: {
       public_id: {
         type: String,
+        required: [true, "Please upload one profile picture"],
       },
       url: {
         type: String,
+        required: [true, "Please upload one profile picture"],
       },
     },
     followers: [
@@ -64,7 +66,7 @@ userSchema.methods.getJwtToken = function () {
   });
 };
 
-// compare password
+// compare password with given password and database password
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
