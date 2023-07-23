@@ -178,7 +178,7 @@ const FollowerCard = ({navigation, route}: Props) => {
                     className="rounded-[8px] w-[100px] flex-row justify-center items-center h-[35px] border border-[#0000004b]"
                     onPress={() => handleFollowUnfollow(item)}>
                     <Text className="text-black">
-                      {item?.followers?.find((i: any) => i._id === user._id)
+                      {item?.followers?.find((i: any) => i.userId === user._id)
                         ? 'Following'
                         : 'Follow'}
                     </Text>

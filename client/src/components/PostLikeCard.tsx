@@ -1,4 +1,4 @@
-import {
+ import {
   View,
   Text,
   SafeAreaView,
@@ -83,7 +83,7 @@ const PostLikeCard = ({navigation, route}: Props) => {
                   <View className="pl-3">
                     <View className='relative flex-row items-center'>
                     <Text className="text-[18px] text-black">
-                      {item?.userName ? item.name : user.name}
+                      {item?.name ? item.name : user.name}
                     </Text>
                     {item.userId === '64ba059336147d4b13bc1a6e' && (
                       <Image

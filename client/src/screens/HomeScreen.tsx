@@ -139,7 +139,8 @@ const HomeScreen = (props: Props) => {
                 refreshing={refreshing}
                 onRefresh={() => {
                   setRefreshing(true);
-                  getAllPosts()(dispatch).then(() => {
+                  getAllPosts()(dispatch);
+                  getAllUsers()(dispatch).then(() => {
                     setRefreshing(false);
                   });
                 }}
