@@ -81,9 +81,22 @@ const PostLikeCard = ({navigation, route}: Props) => {
                     borderRadius={100}
                   />
                   <View className="pl-3">
+                    <View className='relative flex-row items-center'>
                     <Text className="text-[18px] text-black">
-                      {item?.userName ? item.userName : user.name}
+                      {item?.userName ? item.name : user.name}
                     </Text>
+                    {item.userId === '64ba059336147d4b13bc1a6e' && (
+                      <Image
+                        source={{
+                          uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
+                        }}
+                        width={15}
+                        height={15}
+                        className="ml-1"
+                      />
+                    )}
+                    </View>
+                    
                     <Text className="text-[16px] text-[#000000ba]">
                       {item?.userName ? item.userName : user.userName}
                     </Text>

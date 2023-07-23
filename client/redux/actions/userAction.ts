@@ -25,7 +25,6 @@ export const registerUser =
       });
       await AsyncStorage.setItem('token', data.token);
     } catch (error: any) {
-      console.log(error);
       dispatch({
         type: 'userRegisterFailed',
         payload: error.response.data.message,

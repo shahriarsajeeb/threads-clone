@@ -180,7 +180,7 @@ const PostScreen = ({navigation}: Props) => {
               placeholderTextColor={'#000'}
               value={title}
               onChangeText={text => setTitle(text)}
-              className="mt-2 text-[#000] text-[16px]"
+              className="mt-1 text-[#000] text-[16px]"
             />
             <TouchableOpacity className="mt-2" onPress={postImageUpload}>
               <Image
@@ -191,6 +191,7 @@ const PostScreen = ({navigation}: Props) => {
                   width: 20,
                   height: 20,
                 }}
+                tintColor={"#000"}
               />
             </TouchableOpacity>
           </View>
@@ -213,7 +214,7 @@ const PostScreen = ({navigation}: Props) => {
               style={{width: 30, height: 30}}
               borderRadius={100}
             />
-            <Text className="pl-3" onPress={addFreshNewThread}>
+            <Text className="pl-3 text-black" onPress={addFreshNewThread}>
               Add to thread ...
             </Text>
           </View>
@@ -284,7 +285,7 @@ const PostScreen = ({navigation}: Props) => {
                   style={{width: 30, height: 30}}
                   borderRadius={100}
                 />
-                <Text className="pl-3" onPress={addNewThread}>
+                <Text className="pl-3 text-black" onPress={addNewThread}>
                   Add to thread ...
                 </Text>
               </View>
@@ -295,7 +296,7 @@ const PostScreen = ({navigation}: Props) => {
     </View>
     </ScrollView>
     <View className="p-2 flex-row justify-between">
-        <Text>Anyone can reply</Text>
+        <Text className='text-black px-1 py-1'>Anyone can reply</Text>
         <TouchableOpacity onPress={createPost}>
           <Text className="text-[#1977f2]">Post</Text>
         </TouchableOpacity>

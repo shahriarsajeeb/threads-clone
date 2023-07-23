@@ -13,6 +13,7 @@ import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import getTimeDuration from '../common/TimeGenerator';
 import axios from 'axios';
 import {URI} from '../../redux/URI';
+import { getAllPosts } from '../../redux/actions/postAction';
 
 type Props = {
   item: any;
@@ -27,6 +28,7 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
   const {user, token} = useSelector((state: any) => state.user);
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
 
   const ImageUpload = async () => {
     ImagePicker.openPicker({
@@ -62,6 +64,7 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
           },
         )
         .then((res: any) => {
+          getAllPosts()(dispatch);
           navigation.navigate('PostDetails', {
             data: res.data.post,
             navigation: navigation,
@@ -70,29 +73,30 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
           setImage('');
         });
     } else {
+      console.log(postId,post._id);
       await axios
-      .put(
-        `${URI}/add-reply`,
-        {
-          postId,
-          replyId: post._id,
-          title,
-          image,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        .put(
+          `${URI}/add-reply`,
+          {
+            postId,
+            replyId: post._id,
+            title,
+            image,
           },
-        },
-      )
-      .then((res: any) => {
-        navigation.navigate('PostDetails', {
-          data: res.data.post,
-          navigation: navigation,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        )
+        .then((res: any) => {
+          navigation.navigate('PostDetails', {
+            data: res.data.post,
+            navigation: navigation,
+          });
+          setTitle('');
+          setImage('');
         });
-        setTitle('');
-        setImage('');
-      });
     }
   };
   return (
@@ -109,7 +113,7 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
         </TouchableOpacity>
         <Text className="text-[20px] left-4 font-[600] text-[#000]">Reply</Text>
       </View>
-      <View className="h-[85vh] justify-between flex-col">
+      <View className="h-[88vh] justify-between flex-col">
         <ScrollView className="relative" showsVerticalScrollIndicator={false}>
           <View className="flex-row w-full justify-between p-3">
             <View className="flex-row items-center">
@@ -123,7 +127,7 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
                 <Text className="text-black font-[500] text-[18px]">
                   {post.user.name}
                 </Text>
-                <Text className="text-black font-[500] text-[18px]">
+                <Text className="text-black font-[500] text-[16px]">
                   {post.title}
                 </Text>
               </View>
@@ -158,7 +162,7 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
           )}
 
           <View className="p-3">
-            <View className="flex-row items-center">
+            <View className="flex-row">
               <Image
                 source={{uri: user.avatar.url}}
                 width={40}
@@ -172,7 +176,7 @@ const CreateRepliesScreen = ({navigation, route}: Props) => {
                 <TextInput
                   placeholder={`Reply to ${post.user.name}...`}
                   placeholderTextColor={'#666'}
-                  className="mt-2 ml-1"
+                  className="mt-[-5px] ml-1 text-black"
                   value={title}
                   onChangeText={setTitle}
                 />

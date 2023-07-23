@@ -308,7 +308,7 @@ exports.addReply = catchAsyncErrors(async (req, res, next) => {
     }
 
     // Find the reply by it's ID
-    let data = post.replies.find((reply) => reply._id.toSting() === replyId);
+    let data = post.replies.find((reply) => reply._id.toString() === replyId);
 
     if (!data) {
       return next(new ErrorHandler("Reply not found", 401));

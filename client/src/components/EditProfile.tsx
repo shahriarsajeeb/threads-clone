@@ -91,15 +91,15 @@ const EditProfile = ({navigation}: Props) => {
           </Text>
         </View>
         <TouchableOpacity onPress={handleSubmitHandler}>
-          <Text className="text-[20px]">Done</Text>
+          <Text className="text-[20px] text-black">Done</Text>
         </TouchableOpacity>
       </View>
       <View className="h-[90%] items-center justify-center">
-        <View className="w-[90%] p-3 h-[220] border rounded-[10px] border-[#0000002e]">
+        <View className="w-[90%] p-3 min-h-[300] h-max border rounded-[10px] border-[#0000002e]">
           <View className="flex-row">
             <View className="w-full flex-row justify-between">
               <View>
-                <Text className="text-[18px] font-[600]">Name</Text>
+                <Text className="text-[18px] font-[600] text-black">Name</Text>
                 <TextInput
                   value={userData.name}
                   onChangeText={e => setUserData({...userData, name: e})}
@@ -112,7 +112,7 @@ const EditProfile = ({navigation}: Props) => {
                   onChangeText={e => setUserData({...userData, userName: e})}
                   placeholder="Enter your userName..."
                   placeholderTextColor={'#000'}
-                  className="text-[16px] my-2 text-[#000000b0]"
+                  className="text-[16px] mb-2 text-[#000000b0]"
                 />
               </View>
               <TouchableOpacity onPress={ImageUpload}>
@@ -126,7 +126,7 @@ const EditProfile = ({navigation}: Props) => {
             </View>
           </View>
           <View className="w-full border-t border-[#00000015] pt-2">
-            <Text className="text-[18px] font-[600]">Bio</Text>
+            <Text className="text-[18px] font-[600] text-black">Bio</Text>
             <TextInput
               value={userData.bio}
               onChangeText={e => setUserData({...userData, bio: e})}

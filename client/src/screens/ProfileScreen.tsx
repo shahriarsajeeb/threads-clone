@@ -59,15 +59,27 @@ const ProfileScreen = ({navigation}: Props) => {
               </Text>
             </View>
 
-            <Image
-              source={{uri: user?.avatar.url}}
-              height={80}
-              width={80}
-              borderRadius={100}
-            />
+            <View className="relative">
+              <Image
+                source={{uri: user?.avatar.url}}
+                height={80}
+                width={80}
+                borderRadius={100}
+              />
+              {user.role === 'Admin' && (
+                <Image
+                  source={{
+                    uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
+                  }}
+                  width={18}
+                  height={18}
+                  className="ml-2 absolute bottom-0 left-0"
+                />
+              )}
+            </View>
           </View>
           <Text className="p-3 mt-[-20] text-[#000000d4] font-sans leading-6 text-[18px]">
-             {user?.bio}
+            {user?.bio}
           </Text>
           <View className="p-3">
             <TouchableOpacity
@@ -84,8 +96,7 @@ const ProfileScreen = ({navigation}: Props) => {
           </View>
           <View className="px-8 py-3 flex-row w-full items-center">
             <TouchableOpacity
-            onPress={() => navigation.navigate("EditProfile")}
-            >
+              onPress={() => navigation.navigate('EditProfile')}>
               <Text
                 className="w-[100] pt-1 text-center h-[30px] text-[#000]"
                 style={{
@@ -154,6 +165,26 @@ const ProfileScreen = ({navigation}: Props) => {
                   replies={true}
                 />
               ))}
+          </>
+        )}
+
+        {active === 0 && (
+          <>
+            {data.length === 0 && (
+              <Text className="text-black text-[14px] mt-8 text-center">
+                You have no posts yet!
+              </Text>
+            )}
+          </>
+        )}
+
+        {active === 1 && (
+          <>
+            {repliesData.length === 0 && (
+              <Text className="text-black text-[14px] mt-8 text-center">
+                You have no replies yet!
+              </Text>
+            )}
           </>
         )}
       </SafeAreaView>

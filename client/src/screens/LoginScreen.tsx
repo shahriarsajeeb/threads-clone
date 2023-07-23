@@ -1,4 +1,12 @@
-import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ToastAndroid,
+  Platform,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {loadUser, loginUser} from '../../redux/actions/userAction';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,14 +26,24 @@ const LoginScreen = ({navigation}: Props) => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert(error);
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(
+          'Email and password not matching!',
+          ToastAndroid.LONG,
+        );
+      } else {
+        Alert.alert('Email and password not matching!');
+      }
     }
     if (isAuthenticated) {
       loadUser()(dispatch);
-      navigation.navigate('Home');
-      Alert.alert('Login Successful!');
+      if (Platform.OS === 'android') {
+      ToastAndroid.show('Login successful!', ToastAndroid.LONG);
+      } else{
+        Alert.alert('Login successful!');
+      }
     }
-  }, []);
+  }, [isAuthenticated, error]);
 
   return (
     <View className="flex-[1] items-center justify-center">

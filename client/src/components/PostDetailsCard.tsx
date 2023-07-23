@@ -30,12 +30,13 @@ const PostDetailsCard = ({
   postId,
   isRepliesReply,
 }: Props) => {
-  const {user, token} = useSelector((state: any) => state.user);
+  const {user, token,users} = useSelector((state: any) => state.user);
   const {posts} = useSelector((state: any) => state.post);
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: '',
+    userName:'',
     avatar: {
       url: 'https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png',
     },
@@ -144,21 +145,20 @@ const PostDetailsCard = ({
     }
   };
 
-
   useEffect(() => {
-    axios
-      .get(`${URI}/get-user/${item.user._id}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(res => {
-        setUserInfo(res.data.user);
-      });
-  }, []);
+    if(users){
+      const updatedUsers = [...users, user];
+      const userData = updatedUsers.find((user: any) =>
+          user._id === item.user._id
+       );
+       setUserInfo(userData);
+     }
+  }, [users]);
 
   return (
     <View
       className={`p-[15px] ${!isReply && 'border-b-[#00000017] border-b'}`}
-      style={{left: isReply ? 30 : 0, width: isReply ? '90%' : '100%'}}>
+      style={{left: isReply ? 20 : 0, width: isReply ? '95%' : '100%'}}>
       <View className="relative">
         <View className="flex-row w-full justify-between">
           <View className="flex-row items-center">
@@ -172,11 +172,26 @@ const PostDetailsCard = ({
             </TouchableOpacity>
             <View className="pl-3">
               <TouchableOpacity onPress={() => profileHandler(userInfo)}>
-                <Text className="text-black font-[500] text-[18px]">
-                  {userInfo.name}
+                <View className="relative flex-row items-center">
+                  <Text className="text-black font-[500] text-[16px]">
+                    {userInfo.name}
+                  </Text>
+                  {item.role === 'Admin' && (
+                    <Image
+                      source={{
+                        uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
+                      }}
+                      width={15}
+                      height={15}
+                      className="ml-1 absolute bottom-0 left-0"
+                    />
+                  )}
+                </View>
+                <Text className="text-[13px] text-black">
+                  {userInfo?.userName}
                 </Text>
               </TouchableOpacity>
-              <Text className="text-black font-[500] text-[18px]">
+              <Text className="text-black font-[500] text-[13px]">
                 {item.title}
               </Text>
             </View>
@@ -198,7 +213,7 @@ const PostDetailsCard = ({
           )}
         </View>
         {item.image ? (
-          <View className="absolute top-12 left-5 h-[90%] w-[1px] bg-[#00000017]" />
+          <View className="absolute top-14 left-5 h-[90%] w-[1px] bg-[#00000017]" />
         ) : (
           <View className="absolute top-12 left-5 h-[60%] w-[1px] bg-[#00000017]" />
         )}
@@ -279,24 +294,19 @@ const PostDetailsCard = ({
             />
           </TouchableOpacity>
         </View>
-        {!isReply && (
+        
           <View className="pl-[50px] pt-4 flex-row">
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('PostDetails', {
                   data: item,
                 })
-              }>
-              {/* <Text className="text-[16px[ text-[#0000009b]">
-                {item.replies.length !== 0 &&
-                  `${item.replies.length} replies ·`}{' '}
-              </Text> */}
-            </TouchableOpacity>
+              }></TouchableOpacity>
             <Text className="text-[16px[ text-[#0000009b]">
               {item.likes.length} {item.likes.length > 1 ? 'likes' : 'like'}
             </Text>
           </View>
-        )}
+        
 
         {isRepliesReply && (
           <View className="pl-[50px] pt-4 flex-row">

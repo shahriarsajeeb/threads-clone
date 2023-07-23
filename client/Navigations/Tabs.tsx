@@ -1,11 +1,14 @@
-import {Image} from 'react-native';
-import React from 'react';
+import {Image, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../src/screens/HomeScreen';
 import SearchScreen from '../src/screens/SearchScreen';
 import PostScreen from '../src/screens/PostScreen';
 import NotificationScreen from '../src/screens/NotificationScreen';
 import ProfileScreen from '../src/screens/ProfileScreen';
+import {getAllPosts} from '../redux/actions/postAction';
+import {useDispatch} from 'react-redux';
+import {loadUser} from '../redux/actions/userAction';
 
 type Props = {};
 
@@ -66,7 +69,7 @@ const Tabs = (props: Props) => {
         name="Post"
         component={PostScreen}
         options={({route}) => ({
-          tabBarStyle: {display: route.name === "Post" ? 'none' : 'flex'},
+          tabBarStyle: {display: route.name === 'Post' ? 'none' : 'flex'},
           tabBarIcon: ({focused}) => (
             <Image
               source={{

@@ -38,7 +38,6 @@ export const userReducer = createReducer(intialState, {
   userLoadFailed: (state, action) => {
     state.loading = false;
     state.isAuthenticated = false;
-    state.error = action.payload;
   },
   userLoginRequest: state => {
     state.isAuthenticated = false;
@@ -52,6 +51,7 @@ export const userReducer = createReducer(intialState, {
   userLoginFailed: (state, action) => {
     state.isAuthenticated = false;
     state.loading = false;
+    state.error = action.payload;
     state.user = {};
   },
   userLogoutRequest: state => {

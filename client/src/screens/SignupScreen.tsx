@@ -7,11 +7,12 @@ import {
   ToastAndroid,
   Alert,
   Image,
+  Platform,
 } from 'react-native';
 import {useEffect, useState} from 'react';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {registerUser} from '../../redux/actions/userAction';
+import {loadUser, registerUser} from '../../redux/actions/userAction';
 
 type Props = {
   navigation: any;
@@ -27,11 +28,14 @@ const SignupScreen = ({navigation}: Props) => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert(error);
+      if(Platform.OS === 'android'){
+        ToastAndroid.show(error, ToastAndroid.LONG);
+      } else{
+        Alert.alert(error);
+      }
     }
     if (isAuthenticated) {
-      Alert.alert('Account Creation Successful!');
-      navigation.navigate('Home');
+      loadUser()(dispatch);
     }
   }, [error, isAuthenticated]);
 

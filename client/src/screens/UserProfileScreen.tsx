@@ -36,14 +36,12 @@ const UserProfileScreen = ({navigation, route}: Props) => {
       setData(userData);
     }
     if (posts) {
-      // Find posts where the user (d._id) has replied
       const myPosts = posts.filter((post: any) =>
         post.replies.some((reply: any) => reply.user._id === d._id),
       );
 
       setRepliesData(myPosts.filter((post: any) => post.replies.length > 0));
 
-      // Find posts made by the user (d._id)
       const myUserPosts = posts.filter((post: any) => post.user._id === d._id);
       setPostsData(myUserPosts);
     }
@@ -85,7 +83,7 @@ const UserProfileScreen = ({navigation, route}: Props) => {
               />
             </TouchableOpacity>
           ) : (
-            <View className="p-3">
+            <View className="p-2">
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image
                   source={{
@@ -96,40 +94,54 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                 />
               </TouchableOpacity>
               <ScrollView showsVerticalScrollIndicator={false}>
-                <View className="w-full flex-row justify-between">
-                  <View>
-                    <Text className="pt-3 text-[25px] text-black">
+                <View className="w-full flex-row">
+                  <View className='w-[80%]'>
+                    <Text className="pt-3 text-[22px] text-black">
                       {data.name}
                     </Text>
                     {data.userName && (
-                      <Text className="py-2 text-[18px] text-[#0000009d]">
+                      <Text className="py-2 text-[16px] text-[#0000009d]">
                         {data.userName}
                       </Text>
                     )}
                     {data.bio && (
-                      <Text className="py-2 text-[18px] text-[#000000c4]">
+                      <Text className="py-2 text-[16px] text-[#000000c4]">
                         {data.bio}
                       </Text>
                     )}
-                    <TouchableOpacity 
-                    onPress={() => navigation.navigate('FollowerCard', {
-                      followers: data?.followers,
-                      following: data?.following,
-                    })}
-                    >
-                    <Text className="py-2 text-[18px] text-[#000000c7]">
-                      {data.followers.length} followers
-                    </Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('FollowerCard', {
+                          item: data,
+                          followers: data?.followers,
+                          following: data?.following,
+                        })
+                      }>
+                      <Text className="py-2 text-[18px] text-[#000000c7]">
+                        {data.followers.length} followers
+                      </Text>
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
                     onPress={() => setImagePreview(!imagePreview)}>
-                    <Image
-                      source={{uri: data.avatar.url}}
-                      width={60}
-                      height={60}
-                      borderRadius={100}
-                    />
+                    <View className="relative">
+                      <Image
+                        source={{uri: data.avatar.url}}
+                        width={60}
+                        height={60}
+                        borderRadius={100}
+                      />
+                      {data.role === 'Admin' && (
+                        <Image
+                          source={{
+                            uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
+                          }}
+                          width={18}
+                          height={18}
+                          className="ml-2 absolute bottom-0 left-0"
+                        />
+                      )}
+                    </View>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
@@ -195,7 +207,7 @@ const UserProfileScreen = ({navigation, route}: Props) => {
                           replies={true}
                         />
                       ))}
-                    {postData.length === 0 && (
+                    {active !== 1 && postData.length === 0 && (
                       <Text className="text-black py-10 text-center text-[18px]">
                         No Post yet!
                       </Text>

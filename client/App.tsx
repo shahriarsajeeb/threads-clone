@@ -6,9 +6,10 @@ import Store from './redux/Store';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {getAllUsers, loadUser} from './redux/actions/userAction';
 import Loader from './src/common/Loader';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
+import {StatusBar} from 'native-base';
+import { getAllPosts } from './redux/actions/postAction';
 LogBox.ignoreAllLogs();
-
 
 function App() {
   return (
@@ -20,17 +21,22 @@ function App() {
 
 const AppStack = () => {
   const {isAuthenticated, loading} = useSelector((state: any) => state.user);
-  const dispatch = useDispatch();
-  
+  // const dispatch = useDispatch();
+
   React.useEffect(() => {
     Store.dispatch(loadUser());
-    getAllUsers()(dispatch);
   }, []);
-
-
 
   return (
     <>
+      <>
+        <StatusBar
+          animated={true}
+          backgroundColor={'#fff'}
+          barStyle={'dark-content'}
+          showHideTransition={'fade'}
+        />
+      </>
       {loading ? (
         <Loader />
       ) : (

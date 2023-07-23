@@ -5,11 +5,11 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {getNotifications} from '../../redux/actions/notificationAction';
 import {useDispatch, useSelector} from 'react-redux';
-import {StatusBar} from 'native-base';
 import getTimeDuration from '../common/TimeGenerator';
 import axios from 'axios';
 import {URI} from '../../redux/URI';
@@ -24,9 +24,11 @@ const NotificationScreen = ({navigation}: Props) => {
   const {notifications, isLoading} = useSelector(
     (state: any) => state.notification,
   );
+  const [refreshing, setRefreshing] = useState(false);
   const {posts} = useSelector((state:any) => state.post);
   const {token, users} = useSelector((state: any) => state.user);
   const [active, setActive] = useState(0);
+  const refreshingHeight = 100;
 
   const labels = ['All', 'Replies', 'Mentions'];
 
@@ -37,6 +39,7 @@ const NotificationScreen = ({navigation}: Props) => {
   useEffect(() => {
     getNotifications()(dispatch);
   }, []);
+  
 
   return (
     <>
@@ -45,20 +48,14 @@ const NotificationScreen = ({navigation}: Props) => {
       ) : (
         <>
           <SafeAreaView>
-            <StatusBar
-              animated={true}
-              backgroundColor={'#61dafb'}
-              barStyle={'dark-content'}
-              showHideTransition={'fade'}
-            />
-            <View className="p-3">
-              <Text className="text-3xl font-[700]">Activity</Text>
+            <View className="p-3 mb-[190px]">
+              <Text className="text-3xl font-[700] text-black">Activity</Text>
 
               <View className="w-full flex-row my-3 justify-between">
                 {labels.map((label, index) => (
                   <TouchableOpacity
                     key={index}
-                    className="w-[120px] h-[38px] rounded-[8px]"
+                    className="w-[105px] h-[38px] rounded-[8px]"
                     style={{
                       backgroundColor: active === index ? 'black' : '#fff',
                       borderWidth: active === index ? 1 : 0,
@@ -76,29 +73,42 @@ const NotificationScreen = ({navigation}: Props) => {
               </View>
 
               {/* All activites */}
-              {notifications.length === 0 && (
+              {active === 0 && notifications.length === 0 && (
                 <View className="w-full h-[80px] flex items-center justify-center">
-                  <Text>You have no activity yet!</Text>
+                  <Text className='text-[16px] text-black mt-5'>You have no activity yet!</Text>
                 </View>
               )}
 
               {/* All Replies */}
               {active === 1 && (
                 <View className="w-full h-[80px] flex items-center justify-center">
-                  <Text>You have no replies yet!</Text>
+                  <Text className='text-[16px] text-black mt-5'>You have no replies yet!</Text>
                 </View>
               )}
 
               {/* All Replies */}
               {active === 2 && (
                 <View className="w-full h-[80px] flex items-center justify-center">
-                  <Text>You have no mentions yet!</Text>
+                  <Text className='text-[16px] text-black mt-5'>You have no mentions yet!</Text>
                 </View>
               )}
 
               {active === 0 && (
                 <FlatList
                   data={notifications}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={() => {
+                        setRefreshing(true);
+                        getNotifications()(dispatch).then(() => {
+                          setRefreshing(false);
+                        });
+                      }}
+                      progressViewOffset={refreshingHeight}
+                    />
+                  }
+                  showsVerticalScrollIndicator={false}
                   renderItem={({item}) => {
                     const time = item.createdAt;
                     const formattedDuration = getTimeDuration(time);

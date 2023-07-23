@@ -7,9 +7,8 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import PostCard from '../components/PostCard';
 import PostDetailsCard from '../components/PostDetailsCard';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 type Props = {
   navigation: any;
@@ -20,19 +19,19 @@ const PostDetailsScreen = ({navigation, route}: Props) => {
   let item = route.params.data;
   const {posts} = useSelector((state: any) => state.post);
   const [data, setdata] = useState(item);
+
   useEffect(() => {
-    if(posts){
-        const d = posts.find((i:any) => i._id === item._id);
-        setdata(d);
+    if (posts) {
+      const d = posts.find((i: any) => i._id === item._id);
+      setdata(d);
     }
   }, [posts]);
-  
 
   return (
     <SafeAreaView>
       <View className="relative flex-col justify-between">
         <View className="h-[102%]">
-          <View className="p-3">
+          <View className="px-3">
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image
                 source={{
@@ -44,7 +43,11 @@ const PostDetailsScreen = ({navigation, route}: Props) => {
             </TouchableOpacity>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <PostDetailsCard navigation={navigation} item={data} postId={data._id} />
+            <PostDetailsCard
+              navigation={navigation}
+              item={data}
+              postId={data._id}
+            />
             <View>
               {data?.replies?.map((i: any, index: number) => {
                 return (
@@ -57,11 +60,11 @@ const PostDetailsScreen = ({navigation, route}: Props) => {
                   />
                 );
               })}
-              <View className="mb-24"></View>
+              <View className="mb-[150px]"></View>
             </View>
           </ScrollView>
         </View>
-        <View className="absolute bottom-0 flex-row w-full justify-center bg-white h-[70px] items-center">
+        <View className="absolute bottom-8 flex-row w-full justify-center bg-white h-[70px] items-center">
           <TouchableOpacity
             className="w-[92%] bg-[#00000026] h-[45px] rounded-[40px] flex-row items-center"
             onPress={() =>

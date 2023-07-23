@@ -1,12 +1,13 @@
-import {FlatList, Animated, Easing} from 'react-native';
+import {FlatList, Animated, Easing, RefreshControl} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAllPosts} from '../../redux/actions/postAction';
-import {StatusBar} from 'native-base';
 import PostCard from '../components/PostCard';
 import Loader from '../common/Loader';
 import Lottie from 'lottie-react-native';
+import { getAllUsers } from '../../redux/actions/userAction';
+import { Platform } from 'react-native';
 const loader = require('../assets/animation_lkbqh8co.json');
 
 type Props = {
@@ -18,6 +19,7 @@ const HomeScreen = (props: Props) => {
   const dispatch = useDispatch();
   const [offsetY, setOffsetY] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [extraPaddingTop] = useState(new Animated.Value(0));
   const refreshingHeight = 100;
   const lottieViewRef = useRef<Lottie>(null);
@@ -45,8 +47,24 @@ const HomeScreen = (props: Props) => {
     }
   }
 
+  function onScrollEndDrag(event: any) {
+    const { nativeEvent } = event;
+    const { contentOffset } = nativeEvent;
+    const { y } = contentOffset;
+    setOffsetY(y);
+  
+    if (y <= -refreshingHeight && !isRefreshing) {
+      setIsRefreshing(true);
+      setTimeout(() => {
+        getAllPosts()(dispatch);
+        setIsRefreshing(false);
+      }, 3000);
+    }
+  }
+
   useEffect(() => {
     getAllPosts()(dispatch);
+    getAllUsers()(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
@@ -73,12 +91,6 @@ const HomeScreen = (props: Props) => {
         <Loader />
       ) : (
         <SafeAreaView>
-          <StatusBar
-            animated={true}
-            backgroundColor={'#61dafb'}
-            barStyle={'dark-content'}
-            showHideTransition={'fade'}
-          />
           <Lottie
             ref={lottieViewRef}
             style={{
@@ -93,13 +105,17 @@ const HomeScreen = (props: Props) => {
             source={loader}
             progress={progress}
           />
-          <FlatList
+          {/* custom loader not working in android that's why I used here built in loader for android and custom loader for android but both working perfectly */}
+         {
+          Platform.OS === 'ios' ? (
+            <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => (
               <PostCard navigation={props.navigation} item={item} />
             )}
             onScroll={onScroll}
+            onScrollEndDrag={onScrollEndDrag}
             onResponderRelease={onRelease}
             ListHeaderComponent={
               <Animated.View
@@ -109,6 +125,38 @@ const HomeScreen = (props: Props) => {
               />
             }
           />
+          ) : (
+            <FlatList
+            data={posts}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <PostCard navigation={props.navigation} item={item} />
+            )}
+            onScroll={onScroll}
+            onScrollEndDrag={onScrollEndDrag}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => {
+                  setRefreshing(true);
+                  getAllPosts()(dispatch).then(() => {
+                    setRefreshing(false);
+                  });
+                }}
+                progressViewOffset={refreshingHeight}
+              />
+            }
+            onResponderRelease={onRelease}
+            ListHeaderComponent={
+              <Animated.View
+                style={{
+                  paddingTop: extraPaddingTop,
+                }}
+              />
+            }
+          />
+          )
+         }
         </SafeAreaView>
       )}
     </>

@@ -27,7 +27,7 @@ type Props = {
 };
 
 const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
-  const {user, token} = useSelector((state: any) => state.user);
+  const {user, token,users} = useSelector((state: any) => state.user);
   const {posts} = useSelector((state: any) => state.post);
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
@@ -82,20 +82,20 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${URI}/get-user/${item.user._id}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(res => {
-        setUserInfo(res.data.user);
-      });
-  }, []);
+   if(users){
+    const updatedUsers = [...users, user];
+    const userData = updatedUsers.find((user: any) =>
+        user._id === item.user._id
+     );
+     setUserInfo(userData);
+   }
+  }, [users]);
 
   return (
     <View className="p-[15px] border-b border-b-[#00000017]">
       <View className="relative">
-        <View className="flex-row w-full justify-between">
-          <View className="flex-row items-center">
+        <View className="flex-row w-full">
+          <View className="flex-row w-[85%] items-center">
             <TouchableOpacity onPress={() => profileHandler(item.user)}>
               <Image
                 source={{uri: userInfo?.avatar?.url}}
@@ -104,14 +104,25 @@ const PostCard = ({item, isReply, navigation, postId, replies}: Props) => {
                 borderRadius={100}
               />
             </TouchableOpacity>
-            <View className="pl-3 w-[80%]">
-              <TouchableOpacity onPress={() => profileHandler(userInfo)}>
-                <Text className="text-black font-[500] text-[18px]">
+            <View className="pl-3 w-[70%]">
+              <TouchableOpacity
+                className="flex-row items-center"
+                onPress={() => profileHandler(userInfo)}>
+                <Text className="text-black font-[500] text-[16px]">
                   {userInfo?.name}
                 </Text>
+                {userInfo?.role === 'Admin' && (
+                  <Image
+                    source={{
+                      uri: 'https://cdn-icons-png.flaticon.com/128/1828/1828640.png',
+                    }}
+                    width={15}
+                    height={15}
+                    className="ml-1"
+                  />
+                )}
               </TouchableOpacity>
-              <Text className="text-black font-[500] text-[18px]"
-              >
+              <Text className="text-black font-[500] text-[13px]">
                 {item.title}
               </Text>
             </View>
