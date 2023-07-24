@@ -3,6 +3,7 @@ Threads is the most popular social media platform on the internet and today we a
 Don't forget to post your mobile app video and mention Becodemy on LinkedIn or Instagram.
  
 Follow Becodemy on social media for all updates
+
 Instagram: https://www.instagram.com/shahriar_sajeeb_/
 Threads: https://www.threads.net/@shahriar_sajeeb_
 Linkedin: https://www.linkedin.com/in/shahriar-sajeeb-76763222a/
