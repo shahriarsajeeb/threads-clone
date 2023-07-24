@@ -8,6 +8,11 @@ const Notification = require("../models/NotificationModel");
 // Register user
 exports.createUser = catchAsyncErrors(async (req, res, next) => {
   try {
+    if(req.body.avatar){
+      return res
+      .status(400)
+      .json({ success: false, message: "Please upload one profile picture!" });
+    }
     const { name, email, password, avatar } = req.body;
 
     let user = await User.findOne({ email });
