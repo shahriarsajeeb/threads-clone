@@ -54,7 +54,15 @@ const SignupScreen = ({navigation}: Props) => {
   };
 
   const submitHandler = (e: any) => {
+   if(avatar === '' || name === '' || email === ''){
+    if(Platform.OS === 'android'){
+    ToastAndroid.show('Please fill the all fields and upload avatar', ToastAndroid.LONG);
+    } else{
+      Alert.alert('Please fill the all fields and upload avatar')
+    }
+   } else{
     registerUser(name, email, password, avatar)(dispatch);
+   }
   };
 
   return (
